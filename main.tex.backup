@@ -1,0 +1,153 @@
+
+\documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
+
+%----------------------------------------------------------------------------------------
+
+\input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+
+
+%%agregué
+
+
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they
+\usepackage{listings}
+
+
+
+
+\usepackage{graphicx} % paquete que permite introducir imágenes
+
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{float} % Required for tables and figures in the multi-column environment - they
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%%hasta aquí
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begingroup
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+\coordinate [below=12cm] (midpoint) at (current page.north);
+\node at (current page.north west)
+{\begin{tikzpicture}[remember picture,overlay]
+\node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{background}}; % Background image
+\draw[anchor=north] (midpoint) node [fill=ocre!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]{\Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}{\centering Dokumentation zu Quiddi-github\\[15pt] % Book title
+%{\Large }\\[20pt] % Subtitle
+{\huge Quiddi}}}; % Author name
+\end{tikzpicture}};
+\end{tikzpicture}
+\vfill
+\endgroup
+
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+%\newpage
+%~\vfill
+%\thispagestyle{empty}
+
+%\noindent Copyright \copyright\ 2013 John Smith\\ % Copyright notice
+
+%\noindent \textsc{Published by Publisher}\\ % Publisher
+
+%\noindent \textsc{book-website.com}\\ % URL
+
+%\noindent Licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License (the ``License''). You may not use this file except in compliance with the License. You may obtain a copy of the License at \url{http://creativecommons.org/licenses/by-nc/3.0}. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \textsc{``as is'' basis, without warranties or conditions of any kind}, either express or implied. See the License for the specific language governing permissions and limitations under the License.\\ % License information
+
+%\noindent \textit{First printing, March 2013} % Printing/edition date
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+%\chapterimage{ima1} % Table of contents heading image
+
+\chapterimage{chapter_head_1.pdf} % Table of contents heading image
+
+%\pagestyle{empty} % No headers
+
+ \tableofcontents % Print the table of contents itself
+\newpage
+%\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+%\pagestyle{fancy} % Print headers again
+
+%----------------------------------------------------------------------------------------
+%	PART
+%----------------------------------------------------------------------------------------
+
+\chapter{Verschlüsseln von Passwörtern}
+\section{GPG Schlüssel importieren exportieren erstellen}
+GPG verwaltet unter Linux die Schlüssel.\\
+Man kann sich die \textbf{öffentlichen} Schlüssel anzeigen lassen mit:
+\begin{lstlisting}
+ gpg --list-keys
+\end{lstlisting}
+oder die \textbf{privaten} mit:
+\begin{lstlisting}
+ gpg --list-private-keys
+\end{lstlisting}
+\subsection{Export Keys}
+Zum exportieren bedient man sich folgendem Befehl:\\
+\textbf{öffentlich}
+\begin{lstlisting}
+ gpg -a --output public.gpg --export <Key-ID>
+\end{lstlisting}
+für den \textbf{privaten}:
+\begin{lstlisting}
+ gpg --export-secret-keys -a <Key-ID> > secret.asc
+\end{lstlisting}
+\subsection{Import Keys}
+Die Schlüssel müssen nun auf dem anderen PC importiert werden, Dies passiert für den \textbf{öffentlichen} Schlüsssel mit
+\begin{lstlisting}
+ gpg --import public.gpg
+\end{lstlisting}
+und für den \textbf{privaten} Schlüssel mit
+\begin{lstlisting}
+ gpg --allow-secret-key-import --import secret.asc
+\end{lstlisting}
+Um mit dem öffentlischen Schlüssel abreiten zu können, muss diesem noch vertraut werdem. Andernfalls erhält man z.B. in dem Programm pass eine Fehlermeldung. Zum vertrauen des Schlüssels geht man wie folgt vor:
+\begin{lstlisting}
+ gpg --edit-key <Key-ID>
+\end{lstlisting}
+Danach öffent sich ein seperates Programm im Terminal. Hier gibt man \glqq trust\grqq \ ein und bestätigt dies mit \glqq 5 \grqq \ für \glqq Ich vertraue ihm absolut\grqq. Danach kann man es wieder schließen. Danach kann mit dem öffentlichen Schlüssel gearbeitet werden. Der private Schlüssel wird nur zum entschlüsseln gebraucht und ihm muss daher nicht vertraut werden.
+\subsection{neues Key-Paar erstellen}
+Ein neues GPG-Key-Paar, also der öffentliche- mit einem provatem Schlüssel, wird erzeugt mit
+\begin{lstlisting}
+ gpg --full-generate-key
+\end{lstlisting}
+Danach muss \glqq 1\grqq \ gedrückt werden um einen RSA-Key zu erhalten. Danach wird nach der bit-Größe gefragt. Hier kann z.B. \glqq 1024\grqq \ eingegeben werden. Danach wird nach dem Ablaufdatum gefragt. Ist das Ablaufdatum erreicht so kann mit dem öffentlichen Schlüssel nichts neues mehr verschlüsselt werden. Es können aber noch 100 Jahre nach dem Ablaufdatum vorhandene verschlüsselte Dateien entschlüsselt werden. Er frägt dann weiter ob die Daten korrekkt sind, Nach einem Namen, e-Mail, Kommentar. Danach wird nach einem Passphrase gefragt. Der Passphrase ist notwendig um den Key nachher benutzen zu können. Ohne den Passphrase zu wissen kann er später nicht benutzt werden. Danach ist der Key erstellt.
+\section{pass}
+Das Programm pass verschlüsselt, mit dem zuvor defineirten öffentlichen Schlüssel, Text, und entschlüsselt dies mit dem dazugehörigen private Key wieder. Hat man ein Schlüsselpaar, bestehend aus öffentlichem- und privatem Schlüssel erstellt so kann man dieses mit
+\begin{lstlisting}
+ pass init <Key-ID>
+\end{lstlisting}
+für pass defineren. Achtung, wurde der Key zuvor importiert, so muss dem öffentlichen Key erst vertraut werden, ansonsten kann ein verschlüsseln mit pass nicht stattfinden. Sollte man nun alte verschlüsselte Dateien haben, so können diese nun in \glqq$/home/USER/.password-store$\grqq \ kopiert werden. Das entschlüsseln sollte nun mit
+\begin{lstlisting}
+ pass <verschluesselte Datei>
+\end{lstlisting}
+funktionieren. Mit \glqq pass\grqq \ werden alle verschlüsselten Inhalte angezeigt. Mit \glqq pass insert <verschlüsselte Datei>\grqq \ kann dies dann wieder im Klartext dargestellt werden. Mit \glqq pass rm <verschlüsselte Datei>\grqq \ kann das Teil wieder gelöscht werden. Mehrere Zeilen können mit
+\begin{lstlisting}
+ pass insert -m <verschluesselte Datei>
+\end{lstlisting}
+angelegt werden.
+%----------------------------------------------------------------------------------------
+
+\end{document}
