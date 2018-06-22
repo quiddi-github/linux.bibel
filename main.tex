@@ -100,10 +100,20 @@ In den Ordner im Terminal reinnavigieren und mit
 \end{lstlisting}
 das Git-Projekt initialisieren. Danach:
 \begin{lstlisting}
-git add *.c
+git add *.*
 git add README
-git commit -m 'initial project version'
+git commit -m 'Projekt neu angelegt'
 \end{lstlisting}
+\subsection{GitHub Upload}
+Danach kann auf der GitHub Homepage ein neues Projekt angelegt werden. Um dies pushen zu können muss man
+\begin{lstlisting}
+git remote add origin https://github.com/quiddi-github/linux.bibel.git
+\end{lstlisting}
+origin adden. Danach kann man das Projekt auf origin pushen, mit:
+\begin{lstlisting}
+git push -u origin master
+\end{lstlisting}
+Heirmit wird es auf dem Master-Branch gepushed.
 \chapter{Verschlüsseln von Passwörtern}
 \section{GPG Schlüssel importieren exportieren erstellen}
 GPG verwaltet unter Linux die Schlüssel.\\
