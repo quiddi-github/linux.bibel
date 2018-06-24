@@ -114,6 +114,23 @@ origin adden. Danach kann man das Projekt auf origin pushen, mit:
 git push -u origin master
 \end{lstlisting}
 Heirmit wird es auf dem Master-Branch gepushed.
+Zuvor müssen aber noch alle Dateien reingeladen werden mit:
+\begin{lstlisting}
+git add .
+\end{lstlisting}
+und ein Kommentar angelegt werden mit
+\begin{lstlisting}
+git commit -m 'Projekt neu angelegt'
+\end{lstlisting}
+Die remote Reposities können mit
+\begin{lstlisting}
+git remote show
+\end{lstlisting}
+bzw. wenn ein remote Reposity namens origin vorliegt, dies mit
+\begin{lstlisting}
+git remote show origin
+\end{lstlisting}
+anzeigen lassen.
 \chapter{Verschlüsseln von Passwörtern}
 \section{GPG Schlüssel importieren exportieren erstellen}
 GPG verwaltet unter Linux die Schlüssel.\\
