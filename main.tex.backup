@@ -92,7 +92,45 @@
 %----------------------------------------------------------------------------------------
 %	PART
 %----------------------------------------------------------------------------------------
-
+\chapter{Git}
+\subsection{neues Projekt}
+In den Ordner im Terminal reinnavigieren und mit 
+\begin{lstlisting}
+ git init
+\end{lstlisting}
+das Git-Projekt initialisieren. Danach:
+\begin{lstlisting}
+git add *.*
+git add README
+git commit -m 'Projekt neu angelegt'
+\end{lstlisting}
+\subsection{GitHub Upload}
+Danach kann auf der GitHub Homepage ein neues Projekt angelegt werden. Um dies pushen zu können muss man
+\begin{lstlisting}
+git remote add origin https://github.com/quiddi-github/linux.bibel.git
+\end{lstlisting}
+origin adden. Danach kann man das Projekt auf origin pushen, mit:
+\begin{lstlisting}
+git push -u origin master
+\end{lstlisting}
+Heirmit wird es auf dem Master-Branch gepushed.
+Zuvor müssen aber noch alle Dateien reingeladen werden mit:
+\begin{lstlisting}
+git add .
+\end{lstlisting}
+und ein Kommentar angelegt werden mit
+\begin{lstlisting}
+git commit -m 'Projekt neu angelegt'
+\end{lstlisting}
+Die remote Reposities können mit
+\begin{lstlisting}
+git remote show
+\end{lstlisting}
+bzw. wenn ein remote Reposity namens origin vorliegt, dies mit
+\begin{lstlisting}
+git remote show origin
+\end{lstlisting}
+anzeigen lassen.
 \chapter{Verschlüsseln von Passwörtern}
 \section{GPG Schlüssel importieren exportieren erstellen}
 GPG verwaltet unter Linux die Schlüssel.\\
@@ -148,6 +186,73 @@ funktionieren. Mit \glqq pass\grqq \ werden alle verschlüsselten Inhalte angeze
  pass insert -m <verschluesselte Datei>
 \end{lstlisting}
 angelegt werden.
+\chapter{Microsoft Office 2013}
+Vorraussetzungen:\\
+Office 2013 als 32-bit Version\\
+Die Pakete: wine winetricks mono-devel samba-winbind\\
+\section{Wine installieren}
+Wine wird in Debian wie folgt installiert:\\
+32-Bit Architektur hinzufügen:
+\begin{lstlisting}
+ sudo dpkg --add-architecture i386
+\end{lstlisting}
+Den entsprechenden Key hinzufügen
+\begin{lstlisting}
+ wget -nc https://dl.winehq.org/wine-builds/Release.key 
+ sudo apt-key add Release.key
+\end{lstlisting}
+Danach kann in die $/etc/apt/sources.list$ folgendes hinzugefügt werden:
+\begin{lstlisting}
+ deb https://dl.winehq.org/wine-builds/debian/ DISTRO main
+\end{lstlisting}
+DISTRO ist hierbei urch das Debian System zu erssetzen. Danach das ganze updaten:
+\begin{lstlisting}
+ sudo apt-get update
+\end{lstlisting}
+Nun die StableVersion von Wine installieren:
+\begin{lstlisting}
+ sudo apt-get install --install-recommends winehq-stable
+\end{lstlisting}
+\section{andere Pakete}
+Es fehlern nun noch\\
+winetricks mono-devel samba-winbind\\
+Diese bitte noch installieren. Am einfachsten mit
+\begin{lstlisting}
+ sudo apt-get install winetricks mono-devel winbind
+\end{lstlisting}
+Das war soweit die Vorbereitung. Nun kann Wine konfiguriert werden
+\section{Konfiguration Wine}
+Für Office 2013 einen neuen Ordner anlegen:
+\begin{lstlisting}
+ WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winecfg
+\end{lstlisting}
+Es muss Windows 7 verwendet werden. Nun noch folgendes nachinstallieren
+\begin{lstlisting}
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winetricks corefonts
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winetricks msxml4
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winetricks msxml6
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winetricks riched30
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winetricks vb6run
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winetricks d3dx11_42
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winetricks d3dx11_43
+\end{lstlisting}
+Es soll nun in der Konfig bei Bibliotheken unter Bestehende ein Eintrag \glqq *riched20 (Native, Builtin)\grqq \ sein. Die kOnfig kann mit
+\begin{lstlisting}
+WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 winecfg
+\end{lstlisting}
+aufgerufen werden. Nun kann Office 2013 installiert werden
+\begin{lstlisting}
+ WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 wine /PATH_TO_MOUNTPOINT/setup.exe
+\end{lstlisting}
+Bei mir bleib die Installation irgendwann hängen, starten tut mein Word,... trotzdem. Word kann nun gestartet werden mit
+\begin{lstlisting}
+ WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 wine "C:\\Program Files\\Microsoft Office\\Office15\\Winword.exe"
+\end{lstlisting}
+Hierbei wird es wahrscheinlich zu einem schwarzen Bildschirm kommen. Dies kann man folgendermaßen gerichtet werden. Wir machen zunächst die Regedit auf
+\begin{lstlisting}
+ WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 wine regedit
+\end{lstlisting}
+Unter \glqq HKEY\_CURRENT\_USER\{\}Software\{\}Wine \grqq
 %----------------------------------------------------------------------------------------
 
 \end{document}
