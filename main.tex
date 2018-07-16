@@ -255,6 +255,23 @@ Hierbei wird es wahrscheinlich zu einem schwarzen Bildschirm kommen. Dies kann m
  WINEPREFIX=~/.wine/Office2013 WINEARCH=win32 wine regedit
 \end{lstlisting}
 Unter \glqq HKEY\_CURRENT\_USER\{\}Software\{\}Wine\grqq \ legen wir den neuen Schlüssel \glqq Direct3D\grqq \ an. Danach wird ein neuer DWORD Wert mit dem Namen \glqq MaxVersionGL\grqq \ angelegt. Als Hexwert schreiben wir hier \glqq 30002\grqq \ hinein. Sollte dies immer noch nicht funktionieren soo wird noch unter \glqq HKEY\_CURRENT\_USER\{\}Software\{\}Wine\grqq \ ein Schlüssel mit \glqq Direct2D\grqq \ angelegt. Auch hier muss wieder ein DWORD angelegt werden mit dem Namen \glqq max\_version\_factory\grqq. Hier sollte dann der Wert \glqq 0\grqq \ drinnenstehen. Das war's
+\chapter{DarkNet}
+Auf die Funktionen, wie das DarkNet funktionert, soll hier nicht eingegangen werden. Ea kann unter Linux Tor installiert werden. Wird dieser gestartet, so wird lokal(127.0.0.1) ein Proxy auf Port 9050 gestartet. Sofern nicht anderst konfiguriert startet er mit dem SOCKS Protokoll. Zum starten einfach tor eingeben im Terminal. Vereinzelt kann es vorkommen, dass die Anwedung nicht richtig startet. Mit 
+\begin{lstlisting}
+ sudo netstat -plnt | fgrep 9050
+\end{lstlisting}
+kann geschaut werden was Port 9050 blockiert. Andernfalls kann auch mit
+\begin{lstlisting}
+ sudo killall tor
+\end{lstlisting}
+der Tor-Service beendet werden. Chrome kann nunb bei einstellen des richtigen Proxys sofort .onion Domains darstellen. Im Firefox muss der Proxy Socks remote dns einmal aktiviert werden. Hierzu 
+\begin{lstlisting}
+about:config                                                                                                                                                                                                                                                                                                                                                                                                     \end{lstlisting}
+die Konfiguration aufmachen und \glqq network.proxy.socks\_remote\_dns\grqq \ auf true setzen. Danach muss auch noch aktiviert werden, dass .onion Domains aufgelöst werden, dazu den Wert \glqq network.dns.blockDotOnion\grqq \ auf false setzen. Mit dem Link
+\begin{lstlisting}
+ https://check.torproject.org/
+\end{lstlisting}
+kann geschaut werden, ob man richtig mit dem Tor-Netzwerk verbunden ist. Viel Spaß bei erkunden des DarkNets.
 %----------------------------------------------------------------------------------------
 
 \end{document}
