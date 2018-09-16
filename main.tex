@@ -272,6 +272,26 @@ die Konfiguration aufmachen und \glqq network.proxy.socks\_remote\_dns\grqq \ au
  https://check.torproject.org/
 \end{lstlisting}
 kann geschaut werden, ob man richtig mit dem Tor-Netzwerk verbunden ist. Viel Spaß bei erkunden des DarkNets.
+\chapter{VMware}
+\subsection{Linux als Guest System}
+\subsubsection{Mount Share Folder}
+In VMware Workstation muss für die Linux-VM unter \glqq Settings\slash Options\slash Shared Folders\grqq \ der geteilte Ordner mit dem HostSystem angelegt und aktiviert sein. Zur Linux Guest VM:
+Es müssen die Programme 
+\begin{lstlisting}
+open-vm-tools
+open-vm-tools-desktop
+open-vm-tools-dkms
+\end{lstlisting}
+installiert sein. Auf einem DebianBasiertem System geht dies mit:
+\begin{lstlisting}
+sudo apt-get install open-vm-tools open-vm-tools-desktop
+                     open-vm-tools-dkms
+\end{lstlisting}
+Danach kann der Ordner in der VM gemountet werden. Dies geschieht mit:
+\begin{lstlisting}
+vmhgfs-fuse .host:dokumente /home/quiddi/shares/
+\end{lstlisting}
+Wobei hier \glqq dokumente\grqq \ für den freigegebenen Ordnernamen steht und \glqq /home\slash quiddi\slash shares\slash \grqq \ für das Verzeichnis auf dem GuestSystem, in welches gemountet wird.
 %----------------------------------------------------------------------------------------
 
 \end{document}
