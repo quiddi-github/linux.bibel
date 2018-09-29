@@ -292,6 +292,61 @@ Danach kann der Ordner in der VM gemountet werden. Dies geschieht mit:
 vmhgfs-fuse .host:dokumente /home/quiddi/shares/
 \end{lstlisting}
 Wobei hier \glqq dokumente\grqq \ für den freigegebenen Ordnernamen steht und \glqq /home\slash quiddi\slash shares\slash \grqq \ für das Verzeichnis auf dem GuestSystem, in welches gemountet wird.
+\chapter{Debian}
+\textbf{Debian Version anzeigen:}
+\begin{lstlisting}
+cat /etc/issue
+\end{lstlisting} 
+\begin{lstlisting}
+cat /etc/debian_version
+\end{lstlisting}
+\chapter{Bluetoth Lautsprecher}
+Um einen Bluetoth Lautsprecher zu verbinden, werden die Pakete pulseaudio-alsa, pulseaudio-bluetooth, bluez, bluez-libs, bluez-utils benötigt. Diese bitte installieren. 
+\begin{lstlisting}
+pulseaudio-alsa pulseaudio-bluetooth bluez bluez-libs bluez-utils
+\end{lstlisting}
+Nach der Installation mit systemctl den entsprechenden Dienst mit
+\begin{lstlisting}
+sudo systemctl start bluetooth.service
+\end{lstlisting}
+starten. Im Terminal den Lautsprecher verbinden. Hierzu
+\begin{lstlisting}
+bluetoothctl
+\end{lstlisting}
+starten. Danach nach Geräten suchen lassen mit
+\begin{lstlisting}
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent
+[bluetooth]# scan on
+\end{lstlisting}
+Irgendwo sollte das Bluetooth Gerät nun auftauchen. Im besten Falle sieht man nun auch einen Namen des Gerätes. Nun das Gerät mit der Geräte-ID verbinden
+\begin{lstlisting}
+[bluetooth]# pair 00:1D:43:6D:03:26
+\end{lstlisting}
+Nun nach dem Pairen verbinden
+\begin{lstlisting}
+[bluetooth]# connect 00:1D:43:6D:03:26
+\end{lstlisting}
+Die ganze Sache beenden mit
+\begin{lstlisting}
+[bluetooth]# scan off
+[bluetooth]# exit
+\end{lstlisting}
+Um die Lautstärke nun vom Terminal aus steuern zu können, muss man noch
+\begin{lstlisting}
+pulsemixer
+\end{lstlisting}
+installieren. Danach dies mit 
+\begin{lstlisting}
+pulsemixer
+\end{lstlisting}
+starten. Das Gerät ausswählen und Musik hören.\\
+Bei Problemen kann man noch
+\begin{lstlisting}
+pulseaudio-alsa
+\end{lstlisting}
+installieren. Dies sollte möglich machen, dass man mit Alsamixer das PulseaudioGerät steuern kann. Dies klappte bei mir jedoch nicht.
 %----------------------------------------------------------------------------------------
 
 \end{document}
