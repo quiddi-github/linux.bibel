@@ -131,6 +131,18 @@ bzw. wenn ein remote Reposity namens origin vorliegt, dies mit
 git remote show origin
 \end{lstlisting}
 anzeigen lassen.
+\section{eigener Git Hub Server}
+Git sollte installiert sein. Der Rest läuft dann wie lokal. Am Server sollte nun folgendes passieren:\\
+1. ordner in /home/git/usb\_drive als xxx.git erstellen\\
+2. git --bare init ausführen im ordner\\
+Am Client nun folgendes machen:\\
+\begin{itemize}
+ \item Neuen Ordner anlegen \$ cd myproject
+ \item Initialisieren \$ git init
+ \item Dateien hinzufügen mit \$ git add .
+ \item Kommentar zu den Änderungen schreiben \$ git commit -m 'initial commit'
+ \item Server nur einmal konfigurieren \$ git remote add origin git@gitserver:/opt/git/project.git
+\end{itemize}
 \chapter{Verschlüsseln von Passwörtern}
 \section{GPG Schlüssel importieren exportieren erstellen}
 GPG verwaltet unter Linux die Schlüssel.\\
@@ -267,7 +279,140 @@ kann geschaut werden was Port 9050 blockiert. Andernfalls kann auch mit
 der Tor-Service beendet werden. Chrome kann nunb bei einstellen des richtigen Proxys sofort .onion Domains darstellen. Im Firefox muss der Proxy Socks remote dns einmal aktiviert werden. Hierzu 
 \begin{lstlisting}
 about:config                                                                                                                                                                                                                                                                                                                                                                                                     \end{lstlisting}
-die Konfiguration aufmachen und \glqq network.proxy.socks\_remote\_dns\grqq \ auf true setzen. 
+die Konfiguration aufmachen und \glqq network.proxy.socks\_remote\_dns\grqq \ auf true setzen. Danach muss auch noch aktiviert werden, dass .onion Domains aufgelöst werden, dazu den Wert \glqq network.dns.blockDotOnion\grqq \ auf false setzen. Mit dem Link
+\begin{lstlisting}
+ https://check.torproject.org/
+\end{lstlisting}
+kann geschaut werden, ob man richtig mit dem Tor-Netzwerk verbunden ist. Viel Spaß bei erkunden des DarkNets.
+\chapter{VMware}
+\subsection{Linux als Guest System}
+\subsubsection{Mount Share Folder}
+In VMware Workstation muss für die Linux-VM unter \glqq Settings\slash Options\slash Shared Folders\grqq \ der geteilte Ordner mit dem HostSystem angelegt und aktiviert sein. Zur Linux Guest VM:
+Es müssen die Programme 
+\begin{lstlisting}
+open-vm-tools
+open-vm-tools-desktop
+open-vm-tools-dkms
+\end{lstlisting}
+installiert sein. Auf einem DebianBasiertem System geht dies mit:
+\begin{lstlisting}
+sudo apt-get install open-vm-tools open-vm-tools-desktop
+                     open-vm-tools-dkms
+\end{lstlisting}
+Danach kann der Ordner in der VM gemountet werden. Dies geschieht mit:
+\begin{lstlisting}
+vmhgfs-fuse .host:dokumente /home/quiddi/shares/
+\end{lstlisting}
+Wobei hier \glqq dokumente\grqq \ für den freigegebenen Ordnernamen steht und \glqq /home\slash quiddi\slash shares\slash \grqq \ für das Verzeichnis auf dem GuestSystem, in welches gemountet wird.
+\chapter{Debian}
+\textbf{Debian Version anzeigen:}
+\begin{lstlisting}
+cat /etc/issue
+\end{lstlisting} 
+\begin{lstlisting}
+cat /etc/debian_version
+\end{lstlisting}
+\chapter{Bluetoth Lautsprecher}
+Um einen Bluetoth Lautsprecher zu verbinden, werden die Pakete pulseaudio-alsa, pulseaudio-bluetooth, bluez, bluez-libs, bluez-utils benötigt. Diese bitte installieren. 
+\begin{lstlisting}
+pulseaudio-alsa pulseaudio-bluetooth bluez bluez-libs bluez-utils
+\end{lstlisting}
+Nach der Installation mit systemctl den entsprechenden Dienst mit
+\begin{lstlisting}
+sudo systemctl start bluetooth.service
+\end{lstlisting}
+starten. Im Terminal den Lautsprecher verbinden. Hierzu
+\begin{lstlisting}
+bluetoothctl
+\end{lstlisting}
+starten. Danach nach Geräten suchen lassen mit
+\begin{lstlisting}
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent
+[bluetooth]# scan on
+\end{lstlisting}
+Irgendwo sollte das Bluetooth Gerät nun auftauchen. Im besten Falle sieht man nun auch einen Namen des Gerätes. Nun das Gerät mit der Geräte-ID verbinden
+\begin{lstlisting}
+[bluetooth]# pair 00:1D:43:6D:03:26
+\end{lstlisting}
+Nun nach dem Pairen verbinden
+\begin{lstlisting}
+[bluetooth]# connect 00:1D:43:6D:03:26
+\end{lstlisting}
+Die ganze Sache beenden mit
+\begin{lstlisting}
+[bluetooth]# scan off
+[bluetooth]# exit
+\end{lstlisting}
+Um die Lautstärke nun vom Terminal aus steuern zu können, muss man noch
+\begin{lstlisting}
+pulsemixer
+\end{lstlisting}
+installieren. Danach dies mit 
+\begin{lstlisting}
+pulsemixer
+\end{lstlisting}
+starten. Das Gerät ausswählen und Musik hören.\\
+Bei Problemen kann man noch
+\begin{lstlisting}
+pulseaudio-alsa
+\end{lstlisting}
+installieren. Dies sollte möglich machen, dass man mit Alsamixer das PulseaudioGerät steuern kann. Dies klappte bei mir jedoch nicht.
 %----------------------------------------------------------------------------------------
-
+\chapter{Dynamische IP updaten}
+Kostenlos wird dies momentan nur noch von \url{ddnss.de} bzw. \url{ddnss.ch} angeboten. DynDNS kostet mittlerweile Geld. Vorraussetzung is, dass ein ddnss-Benutzer eingerichtet ist. Weiter muss ddclient installiert sein. Nun kann es mit
+\begin{lstlisting}
+sudo dpkg-reconfigure ddclient
+\end{lstlisting}
+eingerichtet werden. Hier wird nun eingegeben:
+\begin{itemize}
+ \item anderen Anbieter auswählen
+ \item Name des Servers: ddnss.de
+ \item Protokoll dyndns2
+ \item  Benutzer: testbenutzer
+ \item PW eingeben
+ \item Netzwerkschnittstelle, normal eth0
+ \item Vollständige Adresse: meineadresse.ddnss.ch
+ \item  PPP-Verbindung, Nein
+ \item  als Daemon starten, JA
+ \item Intervall, 300
+\end{itemize}
+Der status heirzu kann mit
+\begin{lstlisting}
+ddclient -query
+\end{lstlisting}
+abgefragt werden. Nun sollte noch umgestellt werden, dass ddnss die externe IP und nicht die interne IP bekommt. Hierzu mit dem Editor nano die config verändern mit
+\begin{lstlisting}
+sudo nano /etc/default/ddclient
+\end{lstlisting}
+Hier muss dann die \glqq use$=$if\grqq auf
+\begin{lstlisting}
+protocol=dyndns2
+use=web, web=my.ip.fi/
+server=ddnss.de
+\end{lstlisting}
+umgestellt werden. Danach sollte der Dienst ddclient die externe IP an ddnss.de weiterschicken. Um regelmäßig die IP Adresse an ddnss zu schicken muss man in der Datei \glqq /etc/default/ddclient\grqq
+\begin{lstlisting}
+run_daemon="false" auf true setzen 
+run_dhclient="true" auf false setzen
+run_ipup="true" auf false setzen
+\end{lstlisting}
+um alle 300 Sekunden die IP-Adresse an ddnss zu schicken.
+Einmalig kann man den Dienst mit
+\begin{lstlisting}
+sudo ddclient -debug -verbose -noquiet
+\end{lstlisting}
+starten.
+\chapter{Feste IP einstellen mit dhcpcd}
+\begin{lstlisting}
+sudo nano /etc/dhcpcd.conf
+\end{lstlisting}
+Hier sollte sehen als bsp.:
+\begin{lstlisting}
+interface eth0
+static ip_address=192.168.0.4/24
+static routers=192.168.0.1
+static domain_name_servers=192.168.0.1
+\end{lstlisting}
 \end{document}

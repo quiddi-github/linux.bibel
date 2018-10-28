@@ -8,6 +8,8 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.0.2}GitHub Upload}{5}{subsection.1.0.2}
 \defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.1}eigener Git Hub Server}{6}{section.1.1}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {2}Verschl\IeC {\"u}sseln von Passw\IeC {\"o}rtern}{7}{chapter.2}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.1}GPG Schl\IeC {\"u}ssel importieren exportieren erstellen}{7}{section.2.1}
@@ -39,4 +41,12 @@
 \contentsline {chapter}{\numberline {6}Debian}{15}{chapter.6}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {7}Bluetoth Lautsprecher}{17}{chapter.7}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Dynamische IP updaten}{19}{chapter.8}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {9}Feste IP einstellen mit dhcpcd}{21}{chapter.9}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {10}SSH mit RSA-Keyfile}{23}{chapter.10}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {10.1}Keyfile am Client einspielen}{23}{section.10.1}
 \contentsfinish 

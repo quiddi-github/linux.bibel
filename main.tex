@@ -131,6 +131,19 @@ bzw. wenn ein remote Reposity namens origin vorliegt, dies mit
 git remote show origin
 \end{lstlisting}
 anzeigen lassen.
+\section{eigener Git Hub Server}
+Git sollte installiert sein. Der Rest läuft dann wie lokal. Am Server sollte nun folgendes passieren:\\
+1. ordner in /home/git/usb\_drive als xxx.git erstellen\\
+2. git --bare init ausführen im ordner\\
+Am Client nun folgendes machen:\\
+\begin{itemize}
+ \item Neuen Ordner anlegen \$ cd myproject
+ \item Initialisieren \$ git init
+ \item Dateien hinzufügen mit \$ git add .
+ \item Kommentar zu den Änderungen schreiben \$ git commit -m 'initial commit'
+ \item Server nur einmal konfigurieren \$ git remote add origin git@gitserver:/opt/git/project.git
+ \item Git push ausführen \$ git push origin master
+\end{itemize}
 \chapter{Verschlüsseln von Passwörtern}
 \section{GPG Schlüssel importieren exportieren erstellen}
 GPG verwaltet unter Linux die Schlüssel.\\
@@ -348,5 +361,83 @@ pulseaudio-alsa
 \end{lstlisting}
 installieren. Dies sollte möglich machen, dass man mit Alsamixer das PulseaudioGerät steuern kann. Dies klappte bei mir jedoch nicht.
 %----------------------------------------------------------------------------------------
-
+\chapter{Dynamische IP updaten}
+Kostenlos wird dies momentan nur noch von \url{ddnss.de} bzw. \url{ddnss.ch} angeboten. DynDNS kostet mittlerweile Geld. Vorraussetzung is, dass ein ddnss-Benutzer eingerichtet ist. Weiter muss ddclient installiert sein. Nun kann es mit
+\begin{lstlisting}
+sudo dpkg-reconfigure ddclient
+\end{lstlisting}
+eingerichtet werden. Hier wird nun eingegeben:
+\begin{itemize}
+ \item anderen Anbieter auswählen
+ \item Name des Servers: ddnss.de
+ \item Protokoll dyndns2
+ \item  Benutzer: testbenutzer
+ \item PW eingeben
+ \item Netzwerkschnittstelle, normal eth0
+ \item Vollständige Adresse: meineadresse.ddnss.ch
+ \item  PPP-Verbindung, Nein
+ \item  als Daemon starten, JA
+ \item Intervall, 300
+\end{itemize}
+Der status heirzu kann mit
+\begin{lstlisting}
+ddclient -query
+\end{lstlisting}
+abgefragt werden. Nun sollte noch umgestellt werden, dass ddnss die externe IP und nicht die interne IP bekommt. Hierzu mit dem Editor nano die config verändern mit
+\begin{lstlisting}
+sudo nano /etc/default/ddclient
+\end{lstlisting}
+Hier muss dann die \glqq use$=$if\grqq auf
+\begin{lstlisting}
+protocol=dyndns2
+use=web, web=my.ip.fi/
+server=ddnss.de
+\end{lstlisting}
+umgestellt werden. Danach sollte der Dienst ddclient die externe IP an ddnss.de weiterschicken. Um regelmäßig die IP Adresse an ddnss zu schicken muss man in der Datei \glqq /etc/default/ddclient\grqq
+\begin{lstlisting}
+run_daemon="false" auf true setzen 
+run_dhclient="true" auf false setzen
+run_ipup="true" auf false setzen
+\end{lstlisting}
+um alle 300 Sekunden die IP-Adresse an ddnss zu schicken.
+Einmalig kann man den Dienst mit
+\begin{lstlisting}
+sudo ddclient -debug -verbose -noquiet
+\end{lstlisting}
+starten.
+\chapter{Feste IP einstellen mit dhcpcd}
+\begin{lstlisting}
+sudo nano /etc/dhcpcd.conf
+\end{lstlisting}
+Hier sollte sehen als bsp.:
+\begin{lstlisting}
+interface eth0
+static ip_address=192.168.0.4/24
+static routers=192.168.0.1
+static domain_name_servers=192.168.0.1
+\end{lstlisting}
+\chapter{SSH mit RSA-Keyfile}
+\section{Keyfile am Client einspielen}
+\begin{lstlisting}
+$ mkdir ~/.ssh
+$ cat ~/id_rsa.pub >> ~/.ssh/authorized_keys
+$ rm ~/id_rsa.pub
+$ chmod 600 ~/.ssh/authorized_keys
+\end{lstlisting}
+Dann eine Kongig-Datei für SSH anlegen
+\begin{lstlisting}
+nano /home/quiddi/.ssh/config
+\end{lstlisting}
+Hier dann reinschreiben:
+\begin{lstlisting}
+Host testhost
+  HostName testhost.ddnss.ch
+  Port 1234
+  User ssh-allowed-UserName
+  IdentityFile /home/quiddi/.ssh/authorized_keys
+  IdentitiesOnly yes
+\end{lstlisting}
+nun kann mit\\ 
+ssh testhost\\
+eine ssh verbindung aufgebaut serden
 \end{document}
