@@ -49,4 +49,8 @@
 \contentsline {chapter}{\numberline {10}SSH mit RSA-Keyfile}{23}{chapter.10}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {10.1}Keyfile am Client einspielen}{23}{section.10.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {11}HomeAutomation}{25}{chapter.11}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {11.1}SonOff S20 flash}{25}{section.11.1}
 \contentsfinish 

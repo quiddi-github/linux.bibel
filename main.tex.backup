@@ -142,6 +142,7 @@ Am Client nun folgendes machen:\\
  \item Dateien hinzufügen mit \$ git add .
  \item Kommentar zu den Änderungen schreiben \$ git commit -m 'initial commit'
  \item Server nur einmal konfigurieren \$ git remote add origin git@gitserver:/opt/git/project.git
+ \item Git push ausführen \$ git push origin master
 \end{itemize}
 \chapter{Verschlüsseln von Passwörtern}
 \section{GPG Schlüssel importieren exportieren erstellen}
@@ -415,4 +416,83 @@ static ip_address=192.168.0.4/24
 static routers=192.168.0.1
 static domain_name_servers=192.168.0.1
 \end{lstlisting}
+\chapter{SSH mit RSA-Keyfile}
+\section{Keyfile am Client einspielen}
+\begin{lstlisting}
+$ mkdir ~/.ssh
+$ cat ~/id_rsa.pub >> ~/.ssh/authorized_keys
+$ rm ~/id_rsa.pub
+$ chmod 600 ~/.ssh/authorized_keys
+\end{lstlisting}
+Dann eine Kongig-Datei für SSH anlegen
+\begin{lstlisting}
+nano /home/quiddi/.ssh/config
+\end{lstlisting}
+Hier dann reinschreiben:
+\begin{lstlisting}
+Host testhost
+  HostName testhost.ddnss.ch
+  Port 1234
+  User ssh-allowed-UserName
+  IdentityFile /home/quiddi/.ssh/authorized_keys
+  IdentitiesOnly yes
+\end{lstlisting}
+nun kann mit\\ 
+ssh testhost\\
+eine ssh verbindung aufgebaut serden
+\chapter{HomeAutomation}
+\section{SonOff S20 flash}
+Der Artikel baut auf dem GitHub Projekt von Tasmota auf. \url{https://github.com/arendst/Sonoff-Tasmota} Erklärt wird, wie man einen SonOff S20 mit der Tasmota-Firmware flasht.\\
+\textbf{Vorraussetzungen:}
+\begin{itemize}
+ \item SonOff S20 (hier am Bsp mit der Version v1.3, ist auf er Platine im Gerät aufgedruckt)
+ \item Computer mit Linux
+ \item USB-TTL Adapter
+ \item ESPTool
+\end{itemize}
+\textbf{Verbindung zum SonOff}\\
+Die Verbindung wird hier mit einem USB-TTL Adapter erklärt. In diesem Beispiel ist er unter \glqq /dev/ttyUSB0\grqq eingehängt. Zu erwähnen ist nochmals, dass die ESP8266 mit 3,3 Volt betrieben werden. Bitte die Spannung hier sicherstellen, bei 5V gehen sie nämlich kaputt. 
+\begin{figure}[!h]%{r}{4cm}
+\centering
+    \includegraphics[scale=0.06]{Pictures/sonoff_s20.JPG}
+  \caption{\label{pic:sonoff-s20-connect} }
+\end{figure}
+Der USB-TTL Adapter ist wie in Abbildung \ref{sonoff-s20-connect} zu verbinden. Nun ist zu erwähnen, dass beim Flashen von ESP8266 der GPIO0 auf Masse gezogen werden muss. Glücklicherweise ist beim SonOff S20 dieser mit dem Knopf verbunden. Dies kann dann durch Drücken des Knopfes erreicht werden. Wichtig ist, damit der ESP8266 dies erkennt um in den Flash-Modus zu kommen, auch ein Reset während des Drückens ausgelöst werden muss. Am einfachsten geht es, Betriebsspannung trennen, Knopf drücken und halten, Betriebsspannung anlegen, Knopf weiterhin gedrückt halten, Flashen am PC starten, Knopf weiterhin gedrückt halten, nach erfolgreicher Übertragung loslassen.\\
+\textbf{ESPTool:}\\
+Zum Ausführen des ESPTool wird Python benötigt. Das ESPTool selber kann unter \url{https://github.com/espressif/esptool} heruntergeladen werden.\\ 
+Nach dem Herunterladen sollte als Erstes ein Backup mit
+\begin{lstlisting}
+ sudo python esptool.py --port /dev/ttyUSB0 read_flash 0x00000 0x100000 image1M.bin
+\end{lstlisting}
+gemacht werden(ESP8266 in den Flash-Modus vorher bringen). Danach kann man, muss man aber nicht, den ESP8266 abnullen, um alles zu löschen. Dies kann man mit
+\begin{lstlisting}
+ sudo python esptool.py --port /dev/ttyUSB0 erase_flash
+\end{lstlisting}
+machen. Auch hier gilt, ESP8266 in den Flash-Modus bringen.\\
+Tasmota stellt nun eine universelle Firmware für alle möglichen SonOff Geräte zur Verfügung. Diese nennt er \glqq sonoff.bin\grqq. Auf seiner GitHub Seite findet man sie unter dem Link \url{http://thehackbox.org/tasmota/release/}. Diese kann nun einfach auf den SonOff S20 übertragen werden mit 
+\begin{lstlisting}
+sudo python esptool.py --port /dev/ttyUSB0 write_flash -fs 1MB -fm dout 0x0 /home/quiddi/Downloads/sonoff.bin 
+\end{lstlisting}
+Auf die Übertragung abwarten und nach einem Reboot findet sich ein neues W-Lan Netzwerk mit der SSID sonoff... Zu diedem bitte verbinden. Hier kann man nun zwei W-Lan Netzwerke einrichten. Danach macht das Gerät einen ReConnect. Nun hat man mehrere Möglichkeiten rauszufinden mit welcher IP der SonOff nun erreichbar ist. Ich tat dies mit nmap(Software für Linux um IP-AdressBereiche durchzuscannen). Dies geht mit 
+\begin{lstlisting}
+sudo nmap -sP 192.168.0.*
+\end{lstlisting}
+um beispielsweise von 192.168.0.1 bis 192.168.0.254 zu scannen. Das ESPTool zeigt beim Flashen die MAC-Adresse an. Auch nmap zeigt die MAC-Adresse an. Es sollte also einfach möglich sein das Gerät hier zu finden. Hat man die IP Adresse gefunden, kann man sich mit dieser auf dem Browser wie gehabt verbinden. Im Brower biete die Tasmota-Firmware eine Konsole. Hierüber kann an nun eine feste IP vergeben. 
+\begin{lstlisting}
+IPAddress1 192.168.0.70
+\end{lstlisting}
+40 sekündiges Drücken des Knopfes macht übrigens einen Reset des Gerätes auf die Tasmota Standarteinstellungen.\\ 
+\textbf{GPIO:}\\
+\begin{table}
+\center 
+ \begin{tabular}{|c|c|}\hline
+GPIO0 & Knopf auf dem Gerät\\ \hline
+GPIO1 & RX pin\\ \hline
+GPIO3 & TX pin\\ \hline
+GPIO12 & Blaue LED\\ \hline
+GPIO13 & Grüne LED\\ \hline
+ \end{tabular}
+ \label{tab:mc3}
+ \caption{GPIO Übersicht}
+ \end{table}
 \end{document}
