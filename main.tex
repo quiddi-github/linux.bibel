@@ -462,7 +462,8 @@ Der USB-TTL Adapter ist wie in Abbildung \ref{pic:sonoff-s20-connect} zu verbind
 Zum Ausführen des ESPTool wird Python benötigt. Das ESPTool selber kann unter \url{https://github.com/espressif/esptool} heruntergeladen werden.\\ 
 Nach dem Herunterladen sollte als Erstes ein Backup mit
 \begin{lstlisting}
- sudo python esptool.py --port /dev/ttyUSB0 read_flash 0x00000 0x100000 image1M.bin
+ sudo python esptool.py --port /dev/ttyUSB0 read_flash 
+      0x00000 0x100000 image1M.bin
 \end{lstlisting}
 gemacht werden(ESP8266 in den Flash-Modus vorher bringen). Danach kann man, muss man aber nicht, den ESP8266 abnullen, um alles zu löschen. Dies kann man mit
 \begin{lstlisting}
@@ -471,7 +472,8 @@ gemacht werden(ESP8266 in den Flash-Modus vorher bringen). Danach kann man, muss
 machen. Auch hier gilt, ESP8266 in den Flash-Modus bringen.\\
 Tasmota stellt nun eine universelle Firmware für alle möglichen SonOff Geräte zur Verfügung. Diese nennt er \glqq sonoff.bin\grqq. Auf seiner GitHub Seite findet man sie unter dem Link \url{http://thehackbox.org/tasmota/release/}. Diese kann nun einfach auf den SonOff S20 übertragen werden mit 
 \begin{lstlisting}
-sudo python esptool.py --port /dev/ttyUSB0 write_flash -fs 1MB -fm dout 0x0 /home/quiddi/Downloads/sonoff.bin 
+sudo python esptool.py --port /dev/ttyUSB0 write_flash 
+     -fs 1MB -fm dout 0x0 /home/quiddi/Downloads/sonoff.bin 
 \end{lstlisting}
 Auf die Übertragung abwarten und nach einem Reboot findet sich ein neues W-Lan Netzwerk mit der SSID sonoff... Zu diedem bitte verbinden. Hier kann man nun zwei W-Lan Netzwerke einrichten. Danach macht das Gerät einen ReConnect. Nun hat man mehrere Möglichkeiten rauszufinden mit welcher IP der SonOff nun erreichbar ist. Ich tat dies mit nmap(Software für Linux um IP-AdressBereiche durchzuscannen). Dies geht mit 
 \begin{lstlisting}
