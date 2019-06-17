@@ -1,56 +1,57 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {german}{}
 \defcounter {refsection}{0}\relax 
-\select@language {german}
+\contentsline {chapter}{\numberline {1}Git}{5}{chapter.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {1}Git}{5}{chapter.1}
+\contentsline {subsection}{\numberline {1.0.1}neues Projekt}{5}{subsection.1.0.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.0.1}neues Projekt}{5}{subsection.1.0.1}
+\contentsline {subsection}{\numberline {1.0.2}GitHub Upload}{5}{subsection.1.0.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.0.2}GitHub Upload}{5}{subsection.1.0.2}
+\contentsline {section}{\numberline {1.1}eigener Git Hub Server}{6}{section.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.1}eigener Git Hub Server}{6}{section.1.1}
+\contentsline {chapter}{\numberline {2}Verschl\IeC {\"u}sseln von Passw\IeC {\"o}rtern}{7}{chapter.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {2}Verschl\IeC {\"u}sseln von Passw\IeC {\"o}rtern}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}GPG Schl\IeC {\"u}ssel importieren exportieren erstellen}{7}{section.2.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.1}GPG Schl\IeC {\"u}ssel importieren exportieren erstellen}{7}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Export Keys}{7}{subsection.2.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.1}Export Keys}{7}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Import Keys}{7}{subsection.2.1.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.2}Import Keys}{7}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}neues Key-Paar erstellen}{8}{subsection.2.1.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.3}neues Key-Paar erstellen}{8}{subsection.2.1.3}
+\contentsline {section}{\numberline {2.2}pass}{8}{section.2.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.2}pass}{8}{section.2.2}
+\contentsline {chapter}{\numberline {3}Microsoft Office 2013}{9}{chapter.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Microsoft Office 2013}{9}{chapter.3}
+\contentsline {section}{\numberline {3.1}Wine installieren}{9}{section.3.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Wine installieren}{9}{section.3.1}
+\contentsline {section}{\numberline {3.2}andere Pakete}{9}{section.3.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}andere Pakete}{9}{section.3.2}
+\contentsline {section}{\numberline {3.3}Konfiguration Wine}{10}{section.3.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}Konfiguration Wine}{10}{section.3.3}
+\contentsline {chapter}{\numberline {4}DarkNet}{11}{chapter.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}DarkNet}{11}{chapter.4}
+\contentsline {chapter}{\numberline {5}VMware}{13}{chapter.5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}VMware}{13}{chapter.5}
+\contentsline {subsection}{\numberline {5.0.1}Linux als Guest System}{13}{subsection.5.0.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.0.1}Linux als Guest System}{13}{subsection.5.0.1}
+\contentsline {subsubsection}{Mount Share Folder}{13}{section*.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Mount Share Folder}{13}{section*.2}
+\contentsline {chapter}{\numberline {6}Debian}{15}{chapter.6}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Debian}{15}{chapter.6}
+\contentsline {chapter}{\numberline {7}Bluetoth Lautsprecher}{17}{chapter.7}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Bluetoth Lautsprecher}{17}{chapter.7}
+\contentsline {chapter}{\numberline {8}Dynamische IP updaten}{19}{chapter.8}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Dynamische IP updaten}{19}{chapter.8}
+\contentsline {chapter}{\numberline {9}Feste IP einstellen mit dhcpcd}{21}{chapter.9}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {9}Feste IP einstellen mit dhcpcd}{21}{chapter.9}
+\contentsline {chapter}{\numberline {10}SSH mit RSA-Keyfile}{23}{chapter.10}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {10}SSH mit RSA-Keyfile}{23}{chapter.10}
+\contentsline {section}{\numberline {10.1}Keyfile am Client einspielen}{23}{section.10.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {10.1}Keyfile am Client einspielen}{23}{section.10.1}
+\contentsline {chapter}{\numberline {11}HomeAutomation}{25}{chapter.11}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {11}HomeAutomation}{25}{chapter.11}
+\contentsline {section}{\numberline {11.1}SonOff S20 flash}{25}{section.11.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {11.1}SonOff S20 flash}{25}{section.11.1}
+\contentsline {section}{\numberline {11.2}SonOff T1 flash}{27}{section.11.2}% 
 \contentsfinish 

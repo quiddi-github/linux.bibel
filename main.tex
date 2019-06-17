@@ -359,7 +359,12 @@ Bei Problemen kann man noch
 \begin{lstlisting}
 pulseaudio-alsa
 \end{lstlisting}
-installieren. Dies sollte möglich machen, dass man mit Alsamixer das PulseaudioGerät steuern kann. Dies klappte bei mir jedoch nicht.
+installieren. Dies sollte möglich machen, dass man mit Alsamixer das PulseaudioGerät steuern kann. Dies klappte bei mir jedoch nicht.\\
+Weiter gibt es das grafische Tool blueman-manager. Dies kann man mit
+\begin{lstlisting}
+blueman-manager
+\end{lstlisting}
+starten.
 %----------------------------------------------------------------------------------------
 \chapter{Dynamische IP updaten}
 Kostenlos wird dies momentan nur noch von \url{ddnss.de} bzw. \url{ddnss.ch} angeboten. DynDNS kostet mittlerweile Geld. Vorraussetzung is, dass ein ddnss-Benutzer eingerichtet ist. Weiter muss ddclient installiert sein. Nun kann es mit
@@ -498,4 +503,66 @@ GPIO13 & Grüne LED\\ \hline
  \caption{GPIO Übersicht \label{tab:sonoff-gpio}}
  \end{table}
  Die Original SonOff S20 firmware befindet sich in data/sonoff/sonoff\_s20\_v1-3.bin.
+ \section{SonOff T1 flash}
+Der Artikel baut auf dem GitHub Projekt von Tasmota auf. \url{https://github.com/arendst/Sonoff-Tasmota} Erklärt wird, wie man einen SonOff T1 mit der Tasmota-Firmware flasht.\\
+\textbf{Vorraussetzungen:}
+\begin{itemize}
+\item SonOff T1 (hier am Bsp mit der Version v1.0, ist auf er Platine im Ger\'e4t aufgedruckt)
+\item Computer mit Linux
+\item USB-TTL Adapter
+\item ESPTool
+\end{itemize}
+\textbf{Verbindung zum SonOff}\\
+Die Verbindung wird hier mit einem USB-TTL Adapter erklärt. In diesem Beispiel ist er unter \glqq /dev/ttyUSB0\grqq eingehängt. Zu erwähnen ist nochmals, dass die ESP8266 mit 3,3 Volt betrieben werden. Bitte die Spannung hier sicherstellen, bei 5V gehen sie nämlich kaputt.
+\begin{figure}[!h]%\{r\}\{4cm\}\
+\centering
+\includegraphics[scale=0.23]{Pictures/sonoff_t1.jpg}
+\caption{\label{pic:sonoff-t1-connect} }
+\end{figure}
+Der USB-TTL Adapter ist wie in Abbildung \ref{pic:sonoff-t1-connect} zu verbinden. Nun ist zu erwähnen, dass beim Flashen von ESP8266 der GPIO0 auf Masse gezogen werden muss. Leider lä4sst sich beim SonOff T1, nicht wie beim SonOff S20, durch drücken des Einschalters dies Brüccken. Hierzu muss Masse an R19 an der näher gelegenen Seite zum ESP8266 gelegt werden. Wichtig ist, damit der ESP8266 dies erkennt um in den Flash-Modus zu kommen, auch ein Reset wnach dem Anlegen ausgelöst werden muss. Am einfachsten geht es, Betriebsspannung trennen, Drahtbrüccke verbinden, Betriebsspannung anlegen, Flashen am PC starten und warten bis es fertig ist. Nach erfolgreichem Flashen die Drahtbr\'fccke wieder entfernen.\\
+\textbf{ESPTool:}\\
+Zum Ausführen des ESPTool wird Python benötigt. Das ESPTool selber kann unter \\url{https://github.com/espressif/esptool} heruntergeladen werden.\\
+Nach dem Herunterladen sollte als Erstes ein Backup mit
+\begin{lstlisting}
+sudo python esptool.py --port /dev/ttyUSB0 read_flash
+ 0x00000 0x100000 image1M.bin\
+\end{lstlisting}
+gemacht werden(ESP8266 in den Flash-Modus vorher bringen). Danach kann man, muss man aber nicht, den ESP8266 abnullen, um alles zu flashen. Dies kann man mit
+\begin{lstlisting}
+sudo python esptool.py --port /dev/ttyUSB0 erase_flash\
+\end{lstlisting}
+machen. Auch hier gilt, ESP8266 in den Flash-Modus bringen.\\
+Tasmota stellt nun eine universelle Firmware für alle möglichen SonOff Geräte zur Verfügung. Diese nennt er \\glqq sonoff.bin\\grqq. Auf seiner GitHub Seite findet man sie unter dem Link \url{http://thehackbox.org/tasmota/release/}. Diese kann nun einfach auf den SonOff T1 übertragen werden mit
+\begin{lstlisting}
+sudo python esptool.py --port /dev/ttyUSB0 write_flash
+-fs 1MB -fm dout 0x0 /home/quiddi/Downloads/sonoff.bin
+\end{lstlisting}
+Auf die übertragung abwarten und nach einem Reboot findet sich ein neues W-Lan Netzwerk mit der SSID sonoff... Zu diedem bitte verbinden. Hier kann man nun zwei W-Lan Netzwerke einrichten. Danach macht das Gerät einen ReConnect. Nun hat man mehrere Möglichkeiten rauszufinden mit welcher IP der SonOff nun erreichbar ist. Ich tat dies mit nmap(Software für Linux um IP-AdressBereiche durchzuscannen). Dies geht mit
+\begin{lstlisting}
+sudo nmap -sP 192.168.0.*
+\end{lstlisting}
+um beispielsweise von 192.168.0.1 bis 192.168.0.254 zu scannen. Das ESPTool zeigt beim Flashen die MAC-Adresse an. Auch nmap zeigt die MAC-Adresse an. Es sollte also einfach möglich sein das Gerät hier zu finden. Hat man die IP Adresse gefunden, kann man sich mit dieser auf dem Browser wie gehabt verbinden. Im Brower biete die Tasmota-Firmware eine Konsole. Hierüber kann an nun eine feste IP vergeben.
+\begin{lstlisting}
+IPAddress1 192.168.0.70
+\end{lstlisting}
+40 sekündiges Drücken des Knopfes macht übrigens einen Reset des Gerätes auf die Tasmota Standarteinstellungen.\\
+\textbf{GPIO:}\\
+Dargestellt in Tabelle \ref{tab:sonoff-gpiot1}
+\begin{table}
+\center
+\begin{tabular}{|c|c|}\hline
+GPIO0 & Knopf auf dem Gerät\\ \hline
+GPIO0& Taster 1\\ \hline
+GPIO9& Taster 2\\ \hline
+GPIO10& Taster 3\\ \hline
+GPIO12& blaue LED Taster 1\\ \hline
+GPIO5& blaue LED Taster 2\\ \hline
+GPIO4& blaue LED Taster 3\\ \hline
+GPIO13& blaue LED mit W-Lan Symbol\\ \hline
+GPIO1& RX pin \\ \hline
+GPIO3& TX pin \\ \hline
+\end{tabular}
+\caption{GPIO übersicht T1\label{tab:sonoff-gpiot1}}
+\end{table}
+Die Original SonOff T1 firmware befindet sich in data/sonoff/sonoff\_t1\_v1-0.bin.
 \end{document}
