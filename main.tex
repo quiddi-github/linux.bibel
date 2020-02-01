@@ -445,6 +445,47 @@ Host testhost
 nun kann mit\\ 
 ssh testhost\\
 eine ssh verbindung aufgebaut serden
+\chapter{ESP8266}
+\textbf{Software:}\\
+\begin{itemize}
+ \item Software für Arduino
+ \item Bibliothek für die ESP8266, bekannt unter dem Namen \glqq ESP8266wifi\grqq. Dieser Ordner muss in den Ordner \glqq libraries\grqq im Installationsordner der Arduino-Entwicklungsumgebung hineinkopiert werden.
+ \item Nachtrag: vom 31.1.2020: Zusätzlich musste ich noch \glqq Adafruit Unified Sensor\grqq \ von \glqq Adafruit\grqq \ für den DHT-Temperatursensor aus der Bibliothek installieren.
+\end{itemize}
+\textbf{Hardware:\\}
+\includegraphics[width=8cm]{Pictures/DSC01317.jpg}\\
+Um das Programm zu übertragen wurde der oben dargestellte Adapter verwendet. Nachteil ist, dass der Reset nicht vom Adapter kontorlliert werden kann. Deshlab muss ein ResetKnopf angebracht werden und dieser von Hand im richtigen Moment gedrückt werden (Weiteres siehe unten).
+\begin{itemize}
+ \item Herzstück: ESP-12S
+ \item Betriebsspannung: 3,3V manche USB/TTL Adapter liefern nicht genügend Strom. Es empfiehlt sich eine seperable Spannungsquelle mit 3,3V zu benutzen.
+\end{itemize}
+Anschluss des ESP-12S:\\
+\newpage
+Anschlüsse des ESP-12S von hinten:\\
+\includegraphics[width=3cm]{Pictures/esp-12s.jpg}\\
+Diese sollten dann folgendermaßen verkabelt werden. Die Entstörkkondensatoren und Pull-UP/Down Widerstände wurden weggelassen. Funktioniert hatte es trotzdem. Weiter ist zu beachten, dass der RX des USB/TTL-Adapters auf TX am ESP-12S geht und umgekehrt.\\
+\includegraphics[width=12cm]{Pictures/espwiring.jpg}\\
+Danach wird die ArduinoEntwicklungsumgebung gestartet, es wird folgendes eingestellt:
+\begin{itemize}
+ \item Board: NodeMCU 1.0, um dies auswählen zu können muss man in der ArduinoEntwicklungsumgebung auf Werkzeuge/Board/Boardverwalter gehen, dort bei Suchen \glqq ESP8266\grqq eingeben und \glqq esp8266 by esp8266 Community\grqq installieren.
+ \item Baudrate: 115200
+\end{itemize}
+Danach kann man den Sketch kompilieren. Um ihn zu übertragen muss man auf den Button \glqq Kompilieren mit Upload\grqq drücken. Dies ist der Button mit dem Pfeil. Nachdem die Kompilierung abgeschlossen ist und bevor die ArduinoEntwicklungsumgebung mit dem Upload beginnt muss am ESP-12S der Reset- und der FlashKnopf gleichzeitig gedrückt werden. Den Resetknopf gleich wieder loslassen und kurze Zeit später (vll. ca 1 sek) den Flashknopf auch wieder loslassen. Nun startet der Upload. Nach dem Upload startet die Software auf dem ESP erst nach einem Reset des ESP. Mit Werkzeuge/Serieller Monitor kann man nun den Output der Seriellen Ausgabe sehen. Bitte hier die Baudrate richtig anpassen. Im Quellcode für den ESP-12S ist es hier auf 115200 gestellt. Mein Adapter sah so aus:\\
+\includegraphics[width=5cm]{Pictures/DSC01318.jpg}\\ \\
+\textbf{\color{red}31.3.2018 Authentifizierung mit geschalteten Ausgängen und DHCP(webserver\_aut\_mit\_DHCP)\color{black}}\\
+Änderung: Hier wurden Pin 4 und 5 auf Ausgang geschalten und diese mit einer Zugangssperre geschützt. Bei Schalten der Ausgänge wird nun jedes mal ein Benutzername abgefragt.\\
+Um die Webseite darzustellen hatte sich nun etwas verändert. Mit
+\begin{lstlisting}
+ void make_html()
+\end{lstlisting}
+wird in die String-Variable \grqq content\grqq \ der html-Code für die Webseite geschrieben. Die Funktion zum checken, welcher Link der Seite offen ist wird mit
+\begin{lstlisting}
+server.on("/4/on",.....)
+\end{lstlisting}
+gemacht. In diesem Beispiel die Seite \textbf{IP/4/on}. Der ausführbare Code wird meist mit einer $\lambda$-Funktion übergeben. In dem Falle hier wird mit einer if-Abfrage geschaut, ob die Zugangsdaten passen. Bei Korrekter Eingabe wird in den String \grqq output4State \grqq \ der aktuelle Zustand geschrieben und Pin 4 auf HIGH geschalten. Danach wird mit \grqq make\_html();\grqq \ der String für die HTML erzeugt und dieser mit \grqq server.send(200, "text/html", content);\grqq \ ausgegeben. Die Funktion \grqq server.on(\glqq /4/on\grqq,.....) \grqq \ wird für jeden Seitenaufruf geschrieben. Also insgesamt 5 Stück, Hauptseite, 4 an, 4 aus, 5 an, 5 aus.
+
+
+
 \chapter{HomeAutomation}
 \section{SonOff S20 flash}
 Der Artikel baut auf dem GitHub Projekt von Tasmota auf. \url{https://github.com/arendst/Sonoff-Tasmota} Erklärt wird, wie man einen SonOff S20 mit der Tasmota-Firmware flasht.\\
@@ -460,7 +501,7 @@ Die Verbindung wird hier mit einem USB-TTL Adapter erklärt. In diesem Beispiel 
 \begin{figure}[!h]%{r}{4cm}
 \centering
     \includegraphics[scale=0.06]{Pictures/sonoff_s20.JPG}
-  \caption{\label{pic:sonoff-s20-connect} }
+  \caption{SonOff S20\label{pic:sonoff-s20-connect} }
 \end{figure}
 Der USB-TTL Adapter ist wie in Abbildung \ref{pic:sonoff-s20-connect} zu verbinden. Nun ist zu erwähnen, dass beim Flashen von ESP8266 der GPIO0 auf Masse gezogen werden muss. Glücklicherweise ist beim SonOff S20 dieser mit dem Knopf verbunden. Dies kann dann durch Drücken des Knopfes erreicht werden. Wichtig ist, damit der ESP8266 dies erkennt um in den Flash-Modus zu kommen, auch ein Reset während des Drückens ausgelöst werden muss. Am einfachsten geht es, Betriebsspannung trennen, Knopf drücken und halten, Betriebsspannung anlegen, Knopf weiterhin gedrückt halten, Flashen am PC starten, Knopf weiterhin gedrückt halten, nach erfolgreicher Übertragung loslassen.\\
 \textbf{ESPTool:}\\
@@ -517,7 +558,7 @@ Die Verbindung wird hier mit einem USB-TTL Adapter erklärt. In diesem Beispiel 
 \begin{figure}[!h]%\{r\}\{4cm\}\
 \centering
 \includegraphics[scale=0.23]{Pictures/sonoff_t1.jpg}
-\caption{\label{pic:sonoff-t1-connect} }
+\caption{SonOff T1 Wandschalter\label{pic:sonoff-t1-connect} }
 \end{figure}
 Der USB-TTL Adapter ist wie in Abbildung \ref{pic:sonoff-t1-connect} zu verbinden. Nun ist zu erwähnen, dass beim Flashen von ESP8266 der GPIO0 auf Masse gezogen werden muss. Leider lä4sst sich beim SonOff T1, nicht wie beim SonOff S20, durch drücken des Einschalters dies Brüccken. Hierzu muss Masse an R19 an der näher gelegenen Seite zum ESP8266 gelegt werden. Wichtig ist, damit der ESP8266 dies erkennt um in den Flash-Modus zu kommen, auch ein Reset wnach dem Anlegen ausgelöst werden muss. Am einfachsten geht es, Betriebsspannung trennen, Drahtbrüccke verbinden, Betriebsspannung anlegen, Flashen am PC starten und warten bis es fertig ist. Nach erfolgreichem Flashen die Drahtbr\'fccke wieder entfernen.\\
 \textbf{ESPTool:}\\
@@ -565,4 +606,20 @@ GPIO3& TX pin \\ \hline
 \caption{GPIO übersicht T1\label{tab:sonoff-gpiot1}}
 \end{table}
 Die Original SonOff T1 firmware befindet sich in data/sonoff/sonoff\_t1\_v1-0.bin.
+ \section{SonOff RF Flash}
+ Es wird der Flash mit Tasmota beschrieben. Es handelt sich hier um einen \glqq Sonoff RF R2 Power v1.0 1937\grqq. Er ist abgebildet in Abbildung \ref{pic:sonoff-rf}.
+ \begin{figure}[!h]%\{r\}\{4cm\}\
+\centering
+\includegraphics[scale=0.5]{Pictures/Sonoff-rf-basic.jpg}
+\caption{SonOff RF Basic\label{pic:sonoff-rf} }
+\end{figure}
+ \begin{itemize}
+     \item Geflasht werden kann die normale Tasmota Firmware.
+     \item Um in den Flash-Modus zu kommen, muss GPIO0 auf Masse gezogen werden. GPIO0 kann auf Masse gezogen werden, durch drücken des Knopfes am Gerät. Wie immer, ESP ausschalten, GPIO0 auf Masse legen, ESP einschalten. Danach kann das Flashen am PC gestartet werden mit: \begin{lstlisting}
+sudo python esptool.py --port /dev/ttyUSB0 write_flash
+-fs 1MB -fm dout 0x0 /home/quiddi/Downloads/sonoff.bin
+\end{lstlisting}
+\item Danach muss unter Einstellungen der Gerätetyp auf 2 \glqq Sonoff RF\grqq \ umgestellt werden.
+\item Zum Pairen eines RF-Sender den GPIO0-Knopf für 3 Sekunden drücken, bis das rote Licht einmal blinkt. Danach muss auf dem 433MHz-Sender einmal der Knopf zum Schalten des Kontaktes gedrückt werden. Als dritten Schritt drückt man nun den GPIO0-Taster noch einmal für 5 Sekunden, bis die rote Lampe zweimal blinkt. Danach ist der RF-Sender eingelernt und kann schalten.
+ \end{itemize}
 \end{document}
