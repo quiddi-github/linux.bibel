@@ -445,7 +445,18 @@ Host testhost
 nun kann mit\\ 
 ssh testhost\\
 eine ssh verbindung aufgebaut serden
-\chapter{ESP8266}
+\chapter{Arduino}
+\section{Arduino mit CH340 (China-Version)}
+Der CH340 wird in Linux, OSX und Windows unterstützt. Vorab muss der Treiber instelliert werden. In der Arduino Entwicklugnsumgebung wird nun nun folgendes Eingestellt:\\
+\textbf{Unter Linux}\\
+Board: Arduino Nano\\
+Prozessor: ATmega328P (old Bootloader)\\
+Programmer: AVRISPmkII\\
+\textbf{Unter Windows}\\
+Board: Arduino Duemilanove or Diecimila\\
+Prozessor: ATmega328P (ohne Old Bootloader, den gibt's in Windows nicht)\\
+Programmer: Arduino as ISP\\
+\section{ESP8266}
 \textbf{Software:}\\
 \begin{itemize}
  \item Software für Arduino
@@ -486,8 +497,8 @@ gemacht. In diesem Beispiel die Seite \textbf{IP/4/on}. Der ausführbare Code wi
 
 
 
-\chapter{HomeAutomation}
-\section{SonOff S20 flash}
+\section{HomeAutomation}
+\subsection{SonOff S20 flash}
 Der Artikel baut auf dem GitHub Projekt von Tasmota auf. \url{https://github.com/arendst/Sonoff-Tasmota} Erklärt wird, wie man einen SonOff S20 mit der Tasmota-Firmware flasht.\\
 \textbf{Vorraussetzungen:}
 \begin{itemize}
@@ -544,7 +555,7 @@ GPIO13 & Grüne LED\\ \hline
  \caption{GPIO Übersicht \label{tab:sonoff-gpio}}
  \end{table}
  Die Original SonOff S20 firmware befindet sich in data/sonoff/sonoff\_s20\_v1-3.bin.
- \section{SonOff T1 flash}
+ \subsection{SonOff T1 flash}
 Der Artikel baut auf dem GitHub Projekt von Tasmota auf. \url{https://github.com/arendst/Sonoff-Tasmota} Erklärt wird, wie man einen SonOff T1 mit der Tasmota-Firmware flasht.\\
 \textbf{Vorraussetzungen:}
 \begin{itemize}
@@ -606,7 +617,7 @@ GPIO3& TX pin \\ \hline
 \caption{GPIO übersicht T1\label{tab:sonoff-gpiot1}}
 \end{table}
 Die Original SonOff T1 firmware befindet sich in data/sonoff/sonoff\_t1\_v1-0.bin.
- \section{SonOff RF Flash}
+ \subsection{SonOff RF Flash}
  Es wird der Flash mit Tasmota beschrieben. Es handelt sich hier um einen \glqq Sonoff RF R2 Power v1.0 1937\grqq. Er ist abgebildet in Abbildung \ref{pic:sonoff-rf}.
  \begin{figure}[!h]%\{r\}\{4cm\}\
 \centering

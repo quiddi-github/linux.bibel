@@ -9,9 +9,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.1}eigener Git Hub Server}{6}{section.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {2}Verschl\IeC {\"u}sseln von Passw\IeC {\"o}rtern}{7}{chapter.2}% 
+\contentsline {chapter}{\numberline {2}Verschlüsseln von Passwörtern}{7}{chapter.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.1}GPG Schl\IeC {\"u}ssel importieren exportieren erstellen}{7}{section.2.1}% 
+\contentsline {section}{\numberline {2.1}GPG Schlüssel importieren exportieren erstellen}{7}{section.2.1}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.1}Export Keys}{7}{subsection.2.1.1}% 
 \defcounter {refsection}{0}\relax 
@@ -49,9 +49,17 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {10.1}Keyfile am Client einspielen}{23}{section.10.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {11}HomeAutomation}{25}{chapter.11}% 
+\contentsline {chapter}{\numberline {11}Arduino}{25}{chapter.11}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {11.1}SonOff S20 flash}{25}{section.11.1}% 
+\contentsline {section}{\numberline {11.1}Arduino mit CH340 (China-Version)}{25}{section.11.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {11.2}SonOff T1 flash}{27}{section.11.2}% 
+\contentsline {section}{\numberline {11.2}ESP8266}{25}{section.11.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {11.3}HomeAutomation}{28}{section.11.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {11.3.1}SonOff S20 flash}{28}{subsection.11.3.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {11.3.2}SonOff T1 flash}{30}{subsection.11.3.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {11.3.3}SonOff RF Flash}{31}{subsection.11.3.3}% 
 \contentsfinish 
